@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax New</title>
+	 <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <script>
+        function ajax(){
+            //var json = require("path");
+            if(XMLHttpRequest){
+                var http = new XMLHttpRequest();  //0 Init
+            }else if(ActiveXObject("Microsoft.XMLHTTP")){
+                var http = new ActiveXObject("Microsoft.XMLHTTP");
+            }else{
+                document.writeln("Your Browser Not supported to JavaScript");
+            }
+            http.open("get","https://api.github.com/search/users?q=gopal"); // 1 ready to send 
+            http.send(); // 2 Sent & 3 Process  
+            http.onreadystatechange = function(){
+				var str="";
+                if(http.readyState == 4 && http.status == 200){ // 4 success or response
+					JSON.parse(http.responseText)['items'].forEach((element)=>{
+						str+=`<div class="col-md-10 col-offset-md-1 bg-info" style="margin: 30px; border-radius:5px; padding:10px">
+								<div class="col-md-1">
+									<img width="100%" src="${element.avatar_url}" class="img-circle">
+								</div>
+								<div class="col-md-7">
+									<p>${element.login}</p>
+								</div>
+							</div>`;
+					});
+                    document.getElementById("page").innerHTML = str;
+                }
+            }
+        } 
+		
+		// window.onload = function(){
+		// 	var i = (function(){
+		// 		var count = 10;
+		// 		return function(){
+		// 			return count++;
+		// 		};
+		// 	})();
+		// 	alert(i());//10
+		// 	alert(i());//11
+		// 	alert(i());//12
+		// 	alert(i());//13
+			
+		// }
+		
+		
+		
+    </script>
+</head>
+<body>
+    <button onclick="ajax()">Click</button>
+    <div id="page">
+		
+	</div>
+</body>
+</html>
